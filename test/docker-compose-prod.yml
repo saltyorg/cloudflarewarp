@@ -1,6 +1,7 @@
 networks:
   proxy:
     internal: true
+    name: proxy
   default:
 
 services:

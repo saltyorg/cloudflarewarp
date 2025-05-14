@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 TEST_IP="187.2.2.1"
 
@@ -11,11 +11,6 @@ rm -rf ./logs-fail-yml
 rm -rf ./logs-invalid
 rm -rf ./logs-invalid-toml
 rm -rf ./logs-invalid-yml
-
-if [ "${1}" = "stack" ]; then
-  docker swarm init
-  sleep 5s
-fi
 
 docker pull traefik/whoami:latest
 docker pull traefik:latest

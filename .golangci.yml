@@ -51,7 +51,6 @@ linters:
     - exhaustruct
     - err113
     - wrapcheck
-    - ifshort
     - noctx
     - lll
     - gomnd

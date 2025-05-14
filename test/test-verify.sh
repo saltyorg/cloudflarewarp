@@ -1,3 +1,5 @@
+#!/bin/bash
+
 SUCCESS_CONFIG_FILE="./logs-success-${1}/output.log"
 FAIL_CONFIG_FILE="./logs-fail-${1}/output.log"
 INVALID_CONFIG_FILE="./logs-invalid-${1}/output.log"

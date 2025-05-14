@@ -1,11 +1,13 @@
 networks:
   proxy:
     internal: true
+    name: proxy
   default:
 
 services:
   whoami:
     image: traefik/whoami:v1.8.1
+    container_name: whoami
     depends_on:
       - traefik
     networks:
@@ -26,6 +28,7 @@ services:
 
   traefik:
     image: traefik:latest
+    container_name: traefik
     networks:
       - proxy
       - default

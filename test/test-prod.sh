@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 TEST_IP="187.2.2.3"
 
@@ -11,11 +11,6 @@ rm -rf ./logs-fail-yml
 rm -rf ./logs-invalid
 rm -rf ./logs-invalid-toml
 rm -rf ./logs-invalid-yml
-
-if [ "${1}" = "stack" ]; then
-  docker swarm init
-  sleep 5s
-fi
 
 # TODO: this should pull a version from a variable allowing for specific versions to be tested against over time...
 docker pull traefik/whoami:latest
@@ -30,10 +25,8 @@ sed -i "s/  version = \".*/  version = \"${LATEST_PLUGIN_VERSION}\"/g" ./traefik
 
 echo "Updated version of plugin to latest tag: ${LATEST_PLUGIN_VERSION}"
 
-if [ ! "${1}" = "stack" ]; then
-  mv docker-compose.yml docker-compose.yml.bak
-  cp docker-compose-prod.yml docker-compose.yml
-fi
+mv docker-compose.yml docker-compose.yml.bak
+cp docker-compose-prod.yml docker-compose.yml
 
 sleep 1s
 
@@ -97,7 +90,5 @@ sleep 1s
 
 bash ./test-verify.sh yml $TEST_IP
 
-if [ ! "${1}" = "stack" ]; then
-  rm docker-compose.yml
-  mv docker-compose.yml.bak docker-compose.yml
-fi
+rm docker-compose.yml
+mv docker-compose.yml.bak docker-compose.yml
