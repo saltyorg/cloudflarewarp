@@ -7,7 +7,7 @@ import (
 	"net"
 	"net/http"
 
-	"github.com/saltydk/cloudflarewarp/ips"
+	"github.com/saltyorg/cloudflarewarp/ips"
 )
 
 const (
