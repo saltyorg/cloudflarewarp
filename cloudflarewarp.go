@@ -7,7 +7,7 @@ import (
 	"net"
 	"net/http"
 
-	"github.com/BetterCorp/cloudflarewarp/ips"
+	"github.com/saltydk/cloudflarewarp/ips"
 )
 
 const (
@@ -15,8 +15,8 @@ const (
 	xCfTrusted     = "X-Is-Trusted"
 	xForwardFor    = "X-Forwarded-For"
 	xForwardProto  = "X-Forwarded-Proto"
-	cfConnectingIP = "CF-Connecting-IP"
-	cfVisitor      = "CF-Visitor"
+	cfConnectingIP = "Cf-Connecting-Ip"
+	cfVisitor      = "Cf-Visitor"
 )
 
 // Config the plugin configuration.
@@ -54,7 +54,7 @@ type CFVisitorHeader struct {
 }
 
 // New created a new plugin.
-func New(ctx context.Context, next http.Handler, config *Config, name string) (http.Handler, error) {
+func New(_ context.Context, next http.Handler, config *Config, name string) (http.Handler, error) {
 	ipOverWriter := &RealIPOverWriter{
 		next: next,
 		name: name,

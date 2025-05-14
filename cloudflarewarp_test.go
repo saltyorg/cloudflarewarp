@@ -4,10 +4,9 @@ import (
 	"context"
 	"net/http"
 	"net/http/httptest"
-	"strconv"
 	"testing"
 
-	plugin "github.com/BetterCorp/cloudflarewarp"
+	plugin "github.com/saltyorg/cloudflarewarp"
 )
 
 func TestNew(t *testing.T) {
@@ -15,7 +14,7 @@ func TestNew(t *testing.T) {
 	cfg.TrustIP = []string{"103.21.244.0/22", "172.18.0.1/32", "2405:b500::/32"}
 
 	ctx := context.Background()
-	next := http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {})
+	next := http.HandlerFunc(func(_ http.ResponseWriter, _ *http.Request) {})
 	handler, err := plugin.New(ctx, next, cfg, "cloudflarewarp")
 	if err != nil {
 		t.Fatal(err)
@@ -127,7 +126,6 @@ func TestNew(t *testing.T) {
 		},
 	}
 	for _, test := range testCases {
-		test := test
 		t.Run(test.desc, func(t *testing.T) {
 			recorder := httptest.NewRecorder()
 
@@ -141,7 +139,7 @@ func TestNew(t *testing.T) {
 				req.RemoteAddr = test.remote + ":36001"
 			}
 			req.Header.Set("X-Real-Ip", test.remote)
-			req.Header.Set("Cf-Connecting-IP", test.cfConnectingIP)
+			req.Header.Set("Cf-Connecting-Ip", test.cfConnectingIP)
 			req.Header.Set("Cf-Visitor", test.cfVisitor)
 
 			handler.ServeHTTP(recorder, req)
@@ -152,7 +150,7 @@ func TestNew(t *testing.T) {
 				}
 			}
 			if recorder.Result().StatusCode != http.StatusOK {
-				t.Errorf("invalid response: " + strconv.Itoa(recorder.Result().StatusCode))
+				t.Errorf("expected status code %d, got %d", http.StatusOK, recorder.Result().StatusCode)
 				return
 			}
 
@@ -174,7 +172,7 @@ func TestError(t *testing.T) {
 	cfg.TrustIP = []string{"103.21.244.0"}
 
 	ctx := context.Background()
-	next := http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {})
+	next := http.HandlerFunc(func(_ http.ResponseWriter, _ *http.Request) {})
 	_, err := plugin.New(ctx, next, cfg, "cloudflarewarp")
 	if err == nil {
 		t.Fatalf("expected error, got none")
